@@ -387,10 +387,9 @@ module "vpc_eu" {
 ---
 
 ## Module Data Flow – Advanced Understanding (Exam Critical)
-
+---
 Terraform modules follow **strict one-way data flow** rules.  
 Child modules cannot access parent outputs directly. Data must always be passed explicitly via input variables.
----
 
 ### Allowed Data Flow
 | Direction | Allowed | Mechanism |
