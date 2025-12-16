@@ -386,6 +386,31 @@ module "vpc_eu" {
 
 ---
 
+## Module Data Flow – Advanced Understanding (Exam Critical)
+
+Terraform modules follow **strict one-way data flow** rules.  
+Child modules cannot access parent outputs directly. Data must always be passed explicitly via input variables.
+---
+
+### Allowed Data Flow
+| Direction | Allowed | Mechanism |
+|--------|--------|----------|
+Parent → Child | ✅ | Input variables |
+Child → Parent | ✅ | Output values |
+Child → Parent outputs | ❌ | Not supported |
+
+---
+
+### ❌ Invalid (Not Allowed)
+
+A child module **cannot reference** its parent or parent outputs.
+
+```hcl
+# ❌ NOT VALID – inside child module
+resource "aws_instance" "example" {
+  subnet_id = module.parent.vpc_id
+}
+
 ## 18. Exam‑Focused MCQs (Modules Only)
 
 ### Q1
