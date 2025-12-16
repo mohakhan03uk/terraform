@@ -409,7 +409,7 @@ A child module **cannot reference** its parent or parent outputs.
 resource "aws_instance" "example" {
   subnet_id = module.parent.vpc_id
 }
-
+```
 ## 18. Exam‑Focused MCQs (Modules Only)
 
 ### Q1
