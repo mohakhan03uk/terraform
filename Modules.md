@@ -238,14 +238,15 @@ complete-module/
 ## 11. Publishing Modules to Terraform Registry
 
 ### Requirements
-1. Public GitHub repository
+1. Public GitHub repository :  The module must be on GitHub and must be a public repo. This is only a requirement for the public registry.
 2. Naming convention:
    ```
    terraform-<PROVIDER>-<NAME>
    ```
+   NAME can have string xyz-abc
 3. Standard module structure
 4. README.md with inputs/outputs/examples
-5. Semantic version tags:
+5. Semantic version tags:  which can optionally be prefixed with a v. For example, v1.0.4 and 0.9.2
    ```
    v1.0.0
    v1.2.3
