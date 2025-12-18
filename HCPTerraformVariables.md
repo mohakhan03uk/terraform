@@ -217,3 +217,35 @@ export TF_CLI_ARGS_apply="-parallelism=5"
 - **Language guide: Input variables** – authoring `variable` blocks and validation. 
 - **Tutorial: Manage multiple variable sets** – step‑by‑step walkthrough.
 
+
+
+# Managing Variables in HCP Terraform   ( Different way to think )
+
+HCP Terraform provides a centralized way to manage important values (variables) that can be reused across multiple projects and workspaces. By storing these values in one place, you can easily update them, and the changes automatically apply to all workspaces that use them. At the same time, you can override values for specific workspaces without affecting others.
+
+---
+
+## **Options for Managing Variables**
+
+### **1. Workspace Variables**
+Variables defined within a single workspace.  
+- Scope: **Only that workspace**  
+- Use case: Workspace-specific configurations.
+
+### **2. Variable Sets**
+Collections of variables that can be applied to multiple workspaces—or even globally across all workspaces in an organization.  
+- Scope:  
+  - **Organization-wide**  
+  - **Project-specific**  
+  - **Selected workspaces**  
+- Benefits:  
+  - Enforce consistent configurations (e.g., cloud provider credentials, common tags).  
+  - Apply globally to all current and future workspaces in the organization.
+
+---
+
+## **Run-Specific Variables**
+For one-off changes or testing, you can use **run-specific variables** by passing values directly to Terraform commands:  
+```bash
+terraform plan -var="instance_type=t3.large" -var-file
+
