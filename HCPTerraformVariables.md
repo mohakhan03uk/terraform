@@ -234,6 +234,7 @@ Variables defined within a single workspace.
 
 ### **2. Variable Sets**
 Collections of variables that can be applied to multiple workspaces—or even globally across all workspaces in an organization.  
+Variable sets are constrained to a single organization. You can't create variable sets that can be used across multiple HCP Terraform organizations.
 - Scope:  
   - **Organization-wide**  
   - **Project-specific**  
