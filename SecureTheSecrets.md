@@ -16,6 +16,7 @@ data "vault_generic_secret" "example" {
 - Centralized, secure, audited storage
 - Dynamic secrets and automatic rotation
 - Fine-grained access control
+  
 **Cons:**
 - Requires additional infrastructure and setup
 - Adds complexity to CI/CD pipelines
@@ -26,10 +27,12 @@ data "vault_generic_secret" "example" {
 **Example:**
 - Store sensitive variables in Terraform Cloud workspace as **sensitive**.
 - Access automatically during runs.
+
 **Pros:**
 - Built-in encryption and RBAC
 - No secrets in code or VCS
 - Easy integration with Terraform workflows
+
 **Cons:**
 - Requires Terraform Cloud or Enterprise subscription
 
@@ -45,6 +48,7 @@ terraform apply
 **Pros:**
 - Simple and widely supported
 - Works well in CI/CD pipelines
+
 **Cons:**
 - Can leak via process lists or logs
 - Requires secure handling in pipeline configs
@@ -54,9 +58,11 @@ terraform apply
 ## 4. **Encrypted Files (e.g., SOPS, GPG-encrypted tfvars)**
 **Example:**
 - Store secrets in `secrets.enc.json` and decrypt at runtime.
+
 **Pros:**
 - Version-controlled but encrypted
 - Can integrate with KMS for key management
+
 **Cons:**
 - Adds complexity for decryption in CI/CD
 - Risk if encryption keys are mishandled
@@ -78,6 +84,7 @@ terraform init -backend-config=backend.hcl
 **Pros:**
 - Keeps secrets out of main code
 - Easy to manage per environment
+
 **Cons:**
 - Must ensure files are excluded from VCS
 - Still plaintext unless encrypted
@@ -94,6 +101,7 @@ provider "aws" {
 ```
 **Pros:**
 - None (except simplicity)
+
 **Cons:**
 - Secrets exposed in VCS
 - Violates security best practices
