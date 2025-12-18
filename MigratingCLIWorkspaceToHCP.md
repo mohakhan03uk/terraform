@@ -5,6 +5,7 @@ Migrating from Terraform Community (CLI-based) to HCP Terraform enables remote s
 - Steps to migrate state and configuration
 - Correct version behavior during migration
 - Controlled upgrade steps
+
 ---
 
 ## Steps to Migrate State and Configuration
@@ -18,20 +19,32 @@ Migrating from Terraform Community (CLI-based) to HCP Terraform enables remote s
    - Create a new workspace.
    - During creation, select the desired Terraform version (defaults to latest supported).
 
-3. **Migrate State**
+3. **Update Backend Configuration**
+   - Modify your `main.tf` to use the HCP Terraform remote backend:
+     ```hcl
+     terraform {
+       cloud {
+         organization = "<org>"
+         workspaces {
+           name = "<workspace>"
+         }
+       }
+     }
+     ```
+
+4. **Reinitialize and Migrate State**
    - In your local environment, run:
      ```bash
      terraform login
      terraform init
-     terraform state pull > terraform.tfstate
      ```
-   - Use the HCP Terraform UI or CLI to upload the state file.
+   - Terraform will prompt you to migrate your local state to the remote backend during `init`. Confirm the migration.
 
-4. **Connect Configuration**
+5. **Connect Configuration**
    - Push your configuration to a VCS (e.g., GitHub, GitLab) and link it to the workspace.
    - Alternatively, upload configuration files directly.
 
-5. **Validate and Apply**
+6. **Validate and Apply**
    - Run a plan in HCP Terraform to ensure everything is correct.
    - Apply changes if needed.
 
