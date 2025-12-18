@@ -9,6 +9,7 @@
 - Remote State Management with locking and versioning
 - VCS Integrations (GitHub, GitLab, Azure Repos, Bitbucket)
 - Run automation via **CLI**, **VCS**, or **API**
+- HCP Terraform **always encrypts state at rest** (This is **not optional** and requires **no configuration** from you.)
 
 > Not everything is free — HCP Terraform offers Free and paid plans (Standard, Plus, Enterprise) with progressively advanced features.
 
