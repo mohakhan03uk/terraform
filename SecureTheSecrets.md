@@ -1,6 +1,7 @@
 # Secure Ways to Store and Access Secrets in Terraform
 
 Managing sensitive information (API keys, credentials, tokens) securely is critical in Terraform workflows. Below are the recommended approaches ranked from **best to worst**, with pros and cons.
+Using the **sensitive = true** , but Terraform will still record sensitive values in the state, so anyone who can access the state data will have access to the sensitive values in cleartext.
 
 ---
 
