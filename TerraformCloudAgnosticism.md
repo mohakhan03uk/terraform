@@ -55,8 +55,9 @@ multi-cloud/
 
 ---
 ##  One-Line Difference between `required_providers` and `provider`
-required_providers → declares dependency : `required_providers` defines WHAT provider and version is required
-provider           → configures connection :  `provider` defines HOW Terraform connects to that provider
+`required_providers` → declares dependency : `required_providers` defines WHAT provider and version is required
+
+`provider`           → configures connection :  `provider` defines HOW Terraform connects to that provider
 
 ## 🔧 Root Configuration (HCL)
 
