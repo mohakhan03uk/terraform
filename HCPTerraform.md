@@ -29,6 +29,7 @@
 **Workspace & Configuration Files**
 - You don’t upload `sample.tf` to the workspace directly.
 - Connect the workspace to a **Git repository** (for VCS-driven) or link your **local directory** via the `cloud` block (for CLI/API-driven).
+-  A workspace can be mapped to only one VCS (Version Control System) repository. This means that the workspace will be associated with a single repository where the Terraform configuration files are stored and managed.
 
 **Workspace vs Directories**
 - **Workspace** = Cloud-managed state, runs, permissions, policies, variables.
