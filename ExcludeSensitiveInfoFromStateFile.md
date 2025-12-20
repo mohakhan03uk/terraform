@@ -118,3 +118,21 @@ Even with epoxy‑tight patterns above, keep state secure:
 
 
 ---
+## 9) Quick reference: **What protects state, what doesn’t**
+
+| Method | Prevents storage in state? | Notes |
+|---|---|---|
+| `ephemeral = true` | **Yes** ✅ | Omitted from state & plan; best option.[^hashi-manage] |
+| Write‑only (`value_wo`) | **Yes** ✅ | Never in state/plan; provider/resource support required.[^tfe-variable] |
+| `sensitive = true` | **No** ❌ | Only redacts CLI/UI; state still contains value.[^hashi-manage] |
+| Environment (`TF_VAR_*`) | **No** ❌ | Keeps secrets out of code; not out of state.[^tf-env] |
+| SOPS‑encrypted files | **No** ❌ | Protects at rest in Git; decrypted values usually enter state.[^sops-reg] |
+| Vault / Secrets Manager | **No** ❌ (alone) | Reading into Terraform often persists to state; combine with ephemeral/write‑only.[^vault-reg] |
+
+---
+
+## 10) TL;DR
+
+- **Use `ephemeral` variables** or **write‑only arguments** wherever possible. That’s the only way to **guarantee** secrets won’t be in state.[^hashi-manage][^tfe-variable]  
+- Everything else (sensitive, env vars, SOPS, secret managers) solves **where secrets come from**, not **where Terraform stores them**.  
+- Still secure your state: **remote + encryption + IAM**.[^hashi-manage]
