@@ -118,8 +118,3 @@ Even with epoxy‑tight patterns above, keep state secure:
 
 
 ---
-
-
-## 8) **Putting it all together (recommended combos)**
-
-
