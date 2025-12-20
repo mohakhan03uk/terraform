@@ -6,6 +6,7 @@
 > Free Tier : No agents allowed (Agents are a Business-tier feature)\
 > Standard Tier : Agents allowed but quantity depends on plan entitlement\
 > Business Tier : Highest limit; number of agents allowed is tied to your purchased concurrent runs\
+> Terraform Enterprise (Self‑hosted) : Unlimited agents. 
 ---
 
 ## 1) Why Agents Can Manage On‑Prem Systems (vSphere, Nutanix, OpenStack)
