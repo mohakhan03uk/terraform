@@ -1,5 +1,5 @@
 
-# EC2 SSH Keys via Terraform TLS Provider — Complete Example & Security Notes
+# EC2 SSH Keys via Terraform TLS Provider
 
 How to **generate SSH key pairs using the Terraform `tls` provider**, register the **public key** as an **AWS EC2 key pair**, save the **private key** locally with secure permissions, and then launch an EC2 instance that uses the key.
 
