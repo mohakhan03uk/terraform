@@ -14,13 +14,13 @@
 ## ✅ Minimum Requirements + Why They Are Needed
 
 ### AWS Console (GUI)
-1. **AMI (Amazon Machine Image)** — *Why*: It provides the bootable OS and pre-installed software for the instance. Without an AMI, the instance has no operating system to run.
-2. **Instance type** — *Why*: Defines the hardware (CPU, RAM, network performance). AWS must allocate the right kind of host resources for your workload.
-3. **Key pair** (SSH for Linux / RDP for Windows) — A set of security credentials that you use to prove your identity when connecting to your instance. The public key is on your instance and the private key is on your computer.*Why*: You need credentials to securely access the instance. A key pair enables passwordless, cryptographic login. (Optional if using **Systems Manager Session Manager**.)
-4. **Network**: VPC + Subnet + Security Group rule — *Why*: Instances must live in a network (VPC). A subnet places the instance in a specific AZ. Security groups act as a virtual firewall to permit or deny traffic (e.g., SSH `22/tcp`). Optionally enable **public IP** for internet reachability. </br> A virtual private cloud (VPC) is a virtual network dedicated to your AWS account. To help you get started quickly, your account comes with a default VPC in each AWS Region, and each default VPC has a default subnet in each Availability Zone.
-5. **Region** — *Why*: Resources are regional. AMIs, instance types availability, pricing, and IPs are tied to a selected region.
-6. **Storage (root volume)** — *Why*: The instance needs a root disk to boot the OS (EBS or instance store). Size/type affects performance and cost.
-7. **Tags** — *Why*: Useful for cost allocation, ownership, automation, and resource discovery.
+1. **AMI (Amazon Machine Image)** — ***Why***: It provides the bootable OS and pre-installed software for the instance. Without an AMI, the instance has no operating system to run.
+2. **Instance type** —***Why***: Defines the hardware (CPU, RAM, network performance). AWS must allocate the right kind of host resources for your workload.
+3. **Key pair** (SSH for Linux / RDP for Windows) — A set of security credentials that you use to prove your identity when connecting to your instance. The public key is on your instance and the private key is on your computer. ***Why***: You need credentials to securely access the instance. A key pair enables passwordless, cryptographic login. (Optional if using **Systems Manager Session Manager**.)
+4. **Network**: VPC + Subnet + Security Group rule — ***Why***: Instances must live in a network (VPC). A subnet places the instance in a specific AZ. Security groups act as a virtual firewall to permit or deny traffic (e.g., SSH `22/tcp`). Optionally enable **public IP** for internet reachability. </br> A virtual private cloud (VPC) is a virtual network dedicated to your AWS account. To help you get started quickly, your account comes with a default VPC in each AWS Region, and each default VPC has a default subnet in each Availability Zone.
+5. **Region** — ***Why***: Resources are regional. AMIs, instance types availability, pricing, and IPs are tied to a selected region.
+6. **Storage (root volume)** — ***Why***: The instance needs a root disk to boot the OS (EBS or instance store). Size/type affects performance and cost.
+7. **Tags** — ***Why***: Useful for cost allocation, ownership, automation, and resource discovery.
 > ⚠️ Note: AMI IDs are **region-specific**. Replace the example AMI with one valid for your chosen AWS region.
 
 ### Terraform
