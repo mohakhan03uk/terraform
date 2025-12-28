@@ -214,7 +214,7 @@ ssh-keygen -t ed25519 -f ~/.ssh/mykey
 chmod 600 ~/.ssh/mykey
 ssh -i ~/.ssh/mykey ec2-user@$(terraform output -raw public_ip)
 ```
-
+> Click for more on [ssh-keygen](https://github.com/mohakhan03uk/terraform/blob/main/aws/ManualKeyPairAndItsUseInEC2.md)
 ---
 
 ## 🔄 Notes & Tips
