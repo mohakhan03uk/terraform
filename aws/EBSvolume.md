@@ -79,17 +79,22 @@ resource "aws_volume_attachment" "ebs_attach" {
 - Supports:
   - Online resizing (most cases)
   - Performance modification (type, IOPS, throughput)
+##### You can see the details of Volumes using below cmd :
+> ```aws ec2 describe-volumes --region us-east-1```\
+> ```aws ec2 describe-volumes --volume-ids   vol-0909125d472de2d77```
 
 ### 4. Detachment
 - Can be detached:
   - Gracefully (recommended)
   - Force-detached (risk of data corruption)
 - Data persists after detachment
-```
-> ```aws ec2 detach-volume  --volume-id vol-0123456789abcdef0```
-> EBS volumes are detached in Terraform by destroying the aws_volume_attachment resource; the volume itself remains intact unless explicitly deleted.
-> Inproduction  Unmount filesystem first from EC2   by login into EC2 and umount
-```
+- AWS :
+> aws ec2 detach-volume  --volume-id vol-0123456789abcdef0 
+- Terraform :
+> EBS volumes are detached in Terraform by destroying the aws_volume_attachment resource; the volume itself remains intact unless explicitly deleted \
+> *In production  Unmount filesystem first from EC2   by login into EC2 and umount*
+---
+
 ### 5. Snapshot
 - Point-in-time backup stored in S3 (managed by AWS)
 - Incremental by nature
@@ -122,6 +127,13 @@ resource "aws_ebs_snapshot" "backup_everyTime" {
 - Volume deletion is **permanent**
 - Snapshots remain intact after volume deletion
 - Root volumes may be auto-deleted depending on EC2 settings
+- AWS :
+  > Make sure the volume is detached : aws ec2 describe-volumes --volume-ids vol-0123456789abcdef0    : "State": "available" \
+  > Delete the volume : aws ec2 delete-volume --volume-id vol-0123456789abcdef0
+- Terraform :
+  > Make sure the volume is detached :  Remove or destroy aws_volume_attachment first   : terraform destroy -target=aws_volume_attachment.data_attach \
+  > Delete EBS volume resource : terraform destroy -target=aws_ebs_volume.data\
+  > Then delete the EBS volume and attachement block from resource file
 ### 7. Restoring
 #### Restore Snapshot into Another AZ
 ```
