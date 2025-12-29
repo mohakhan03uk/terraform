@@ -110,6 +110,7 @@ resource "aws_ebs_snapshot" "backup" {
   }
 }
 
+
 # Snapshot resource is replaced on every Apply due to new value of timestamp()
 Example:
 
@@ -117,13 +118,38 @@ resource "aws_ebs_snapshot" "backup_everyTime" {
   volume_id  = aws_ebs_volume.data_volume.id
   description = "backup-${timestamp()}"
 }
-
-
 ```
 > *backup* : will happen only on first terraform apply , if you want to take new one destroy and apply. \
 > *backup_everyTime* : will happen every time when you run apply sure to timestamp()    or you can use DLM policy\
-> ```aws ec2 create-snapshot  --volume-id vol-0123456789abcdef0 --description "Pre-maintenance snapshot" ```
+> aws ec2 create-snapshot  --volume-id vol-0123456789abcdef0 --description "Pre-maintenance snapshot"
 ---
+
+##### Example state of a SS, no AZ mentioned
+```terraform  show 
+aws_ebs_snapshot.devops-vol-ss:
+resource "aws_ebs_snapshot" "devops-vol-ss" {
+    arn                    = "arn:aws:ec2:us-east-1::snapshot/snap-7cc7c84bd2a95a29a"
+    data_encryption_key_id = null
+    description            = "Devops Snapshot"
+    encrypted              = false
+    id                     = "snap-7cc7c84bd2a95a29a"
+    kms_key_id             = null
+    outpost_arn            = null
+    owner_alias            = null
+    owner_id               = "000000000000"
+    storage_tier           = null
+    tags                   = {
+        "Name" = "devops-vol-ss"
+    }
+    tags_all               = {
+        "Name" = "devops-vol-ss"
+    }
+    volume_id              = "vol-d382b1be215f0209d"
+    volume_size            = 5
+}
+``` 
+---
+
 ### 6. Deletion
 - Volume deletion is **permanent**
 - Snapshots remain intact after volume deletion
