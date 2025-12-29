@@ -33,6 +33,7 @@ An EBS volume:
 
 ---
 
+
 ## 🔄 EBS Volume Lifecycle
 
 ### 1. Creation
@@ -42,13 +43,36 @@ An EBS volume:
   - Empty
   - From a snapshot
   - From an AMI (root volume)
+#### Creating an [EBS](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ebs_volume) using Terraform
 
+```
+Create an EBS Volume (AZ-local)
+resource "aws_ebs_volume" "data_volume" {
+  availability_zone = "us-east-1a"
+  size              = 50
+  type              = "gp3"
+  encrypted         = true
+
+  tags = {
+    Name = "terraform-ebs"
+  }
+}
+```
+---
 ### 2. Attachment
 - Can be attached to:
   - One EC2 instance (most volume types)
   - Multiple EC2 instances (io1/io2 with **Multi-Attach**)
 - Instance **must be in the same AZ**
-
+#### [Attaching EBS](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/volume_attachment) to a EC2 intance 
+```
+resource "aws_volume_attachment" "ebs_attach" {
+  device_name = "/dev/xvdf"
+  volume_id   = aws_ebs_volume.data_volume.id
+  instance_id = aws_instance.web.id
+}
+````
+---
 ### 3. In-Use State
 - Volume is mounted and used by the OS
 - Supports:
@@ -65,13 +89,36 @@ An EBS volume:
 - Point-in-time backup stored in S3 (managed by AWS)
 - Incremental by nature
 - Snapshots are **regional**, not AZ-bound
+#### Snapshot Lifecycle with Terraform
+```
+resource "aws_ebs_snapshot" "backup" {
+  volume_id = aws_ebs_volume.data_volume.id
 
+  tags = {
+    Name = "create-backup"
+  }
+}
+
+# Snapshot resource is replaced on every Apply due to new value of timestamp()
+Example:
+
+resource "aws_ebs_snapshot" "backup_everyTime" {
+  volume_id  = aws_ebs_volume.data_volume.id
+  description = "backup-${timestamp()}"
+}
+
+
+```
+> *backup* : will happen only on first terraform apply , if you want to take new one destroy and apply. \
+> *backup_everyTime* : will happen every time when you run apply sure to timestamp()    or you can use DLM policy
+---
 ### 6. Deletion
 - Volume deletion is **permanent**
 - Snapshots remain intact after volume deletion
 - Root volumes may be auto-deleted depending on EC2 settings
 
 ---
+
 
 ## 🚫 Constraints and Limitations
 
