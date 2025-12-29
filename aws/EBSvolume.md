@@ -58,6 +58,7 @@ resource "aws_ebs_volume" "data_volume" {
   }
 }
 ```
+> **Checking status of EBS** : aws ec2 describe-snapshots --filters Name=volume-id,Values=vol-d382b1be215f0209d
 ---
 ### 2. Attachment
 - Can be attached to:
