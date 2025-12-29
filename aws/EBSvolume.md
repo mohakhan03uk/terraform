@@ -1,3 +1,225 @@
+# Amazon EBS
+Amazon Elastic Block Store (Amazon EBS) provides scalable, high-performance block storage resources that can be used with Amazon Elastic Compute Cloud (Amazon EC2) instances. With Amazon Elastic Block Store, you can create and manage the following block storage resources:
+
+**Amazon EBS volumes** — These are storage volumes that you attach to Amazon EC2 instances. After you attach a volume to an instance, you can use it in the same way you would use a local hard drive attached to a computer, for example to store files or to install applications.
+
+**Amazon EBS snapshots** — These are point-in-time backups of Amazon EBS volumes that persist independently from the volume itself. You can create snapshots to back up the data on your Amazon EBS volumes. You can then restore new volumes from those snapshots at any time.
+## 📌 Are Amazon EBS volumes local to an Availability Zone?
+
+**Yes.**  
+Amazon Elastic Block Store (EBS) volumes are **Availability Zone (AZ)–local resources**.
+
+An EBS volume:
+- Is **created in exactly one Availability Zone**
+- Can be **attached only to EC2 instances in the same AZ**
+- Is **automatically replicated within that AZ** for durability
+
+---
+
+## 🧠 Core Characteristics
+
+### Availability Zone Scope
+- EBS volumes exist in **one and only one AZ**
+- Cross-AZ attachment is **not supported**
+- Enforced by AWS at the API level
+
+### Durability Model
+- EBS data is **replicated across multiple physical servers within the same AZ**
+- Protects against:
+  - Disk failure
+  - Host failure
+- Does **not** protect against:
+  - AZ-wide failure
+
+---
+
+## 🔄 EBS Volume Lifecycle
+
+### 1. Creation
+- Created in a specific AZ
+- Size, type, and encryption are defined at creation time
+- Can be created:
+  - Empty
+  - From a snapshot
+  - From an AMI (root volume)
+
+### 2. Attachment
+- Can be attached to:
+  - One EC2 instance (most volume types)
+  - Multiple EC2 instances (io1/io2 with **Multi-Attach**)
+- Instance **must be in the same AZ**
+
+### 3. In-Use State
+- Volume is mounted and used by the OS
+- Supports:
+  - Online resizing (most cases)
+  - Performance modification (type, IOPS, throughput)
+
+### 4. Detachment
+- Can be detached:
+  - Gracefully (recommended)
+  - Force-detached (risk of data corruption)
+- Data persists after detachment
+
+### 5. Snapshot
+- Point-in-time backup stored in S3 (managed by AWS)
+- Incremental by nature
+- Snapshots are **regional**, not AZ-bound
+
+### 6. Deletion
+- Volume deletion is **permanent**
+- Snapshots remain intact after volume deletion
+- Root volumes may be auto-deleted depending on EC2 settings
+
+---
+
+## 🚫 Constraints and Limitations
+
+### AZ Constraints
+- Volume and EC2 instance must be in the **same AZ**
+- No live migration across AZs
+
+### Attachment Limits
+- One volume → one EC2 instance (default)
+- Multi-Attach supported only for:
+  - `io1` and `io2`
+  - Nitro-based instances
+  - Linux only
+  - Requires cluster-aware file systems
+
+### Size Limits
+- Minimum size: **1 GiB**
+- Maximum size: **16 TiB** per volume
+
+### Performance Constraints
+- Performance depends on:
+  - Volume type
+  - Size
+  - Provisioned IOPS / throughput
+- Smaller volumes may not achieve max advertised performance
+
+### OS-Level Constraints
+- File system must be resized after volume expansion
+- Force detach can lead to:
+  - File system corruption
+  - Data loss
+
+---
+
+## 🔐 Encryption
+
+- EBS supports **encryption at rest, in transit, and at snapshot level**
+- Uses **AWS KMS**
+- Encryption is:
+  - Transparent to applications
+  - Mandatory in some organizations via SCPs
+- Snapshots inherit encryption status
+
+---
+
+## 🔄 Cross-AZ and Cross-Region Usage
+
+### How to Move an EBS Volume Across AZs
+1. Create a snapshot
+2. Restore snapshot in target AZ
+3. Attach restored volume to EC2 in that AZ
+
+### Cross-Region DR
+- Copy snapshots to another region
+- Restore during disaster recovery
+
+---
+
+## ⚠️ Failure Scenarios and Behavior
+
+| Failure | EBS Behavior |
+|------|-------------|
+| Disk failure | Handled automatically |
+| EC2 instance failure | Volume remains intact |
+| AZ outage | Volume unavailable |
+| Accidental deletion | Recoverable only via snapshot |
+
+---
+
+## 💰 Pricing and Billing Notes
+
+- Charged for:
+  - Provisioned storage (GB/month)
+  - Provisioned IOPS (io1/io2)
+  - Snapshots (GB/month)
+- You are charged **even if the volume is unattached**
+- Snapshots are incremental but billed for total unique data stored
+
+---
+
+## 🏗️ Best Practices
+
+- Always:
+  - Take regular snapshots
+  - Enable encryption by default
+- For high availability:
+  - Use EBS + snapshots + automation
+  - Or prefer **EFS / S3** for multi-AZ access
+- Before detaching:
+  - Unmount the file system
+  - Flush buffers
+- Tag volumes for cost tracking
+
+---
+
+## 🧪 Example Constraint Scenario
+
+- EC2 instance: `us-east-1a`
+- EBS volume: `us-east-1b`
+
+❌ Attachment fails
+
+Correct approach:
+1. Snapshot volume in `us-east-1b`
+2. Restore snapshot in `us-east-1a`
+3. Attach restored volume
+
+---
+
+## 📚 Official AWS Documentation (Sources)
+
+- EBS Volumes Overview  
+  https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes.html
+
+- Creating an EBS Volume  
+  https://docs.aws.amazon.com/ebs/latest/userguide/ebs-creating-volume.html
+
+- EBS Features and Durability  
+  https://docs.aws.amazon.com/ebs/latest/userguide/EBSFeatures.html
+
+- EBS Snapshots  
+  https://docs.aws.amazon.com/ebs/latest/userguide/ebs-snapshots.html
+
+- Amazon EBS Product Page  
+  https://aws.amazon.com/ebs/
+
+---
+
+## ✅ Summary (Exam / Interview Ready)
+
+> **Amazon EBS volumes are AZ-local block storage resources that can only be attached to EC2 instances in the same Availability Zone, are replicated within that AZ for durability, and rely on snapshots for cross-AZ or cross-Region recovery.**
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # 1
 bob@iac-server ~/terraform via 💠 default ➜  cat main.tf  \
 
