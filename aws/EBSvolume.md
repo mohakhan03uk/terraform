@@ -307,9 +307,27 @@ Correct approach:
 
 ---
 
+## You need to create snapshot of a volumne while you are give the ID of existing Volume
+> I exporting the metadata of already exisitng volume ... then using its id to create the snapshot
+```
+data "aws_ebs_volume" "xfusion-vol" {
+
+  filter {
+    name   = "volume-id"
+    values = ["vol-0fddf7a1aab887737"]
+  }
+}
+
+resource "aws_ebs_snapshot" "xfusion-vol-ss" {
+  tags        = { Name = "xfusion-vol-ss" }
+  description = "xfusion Snapshot"
+
+  volume_id = data.aws_ebs_volume.xfusion-vol.id
+}
+```
 
 
-
+---
 
 
 
