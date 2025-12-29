@@ -72,6 +72,7 @@ resource "aws_volume_attachment" "ebs_attach" {
   instance_id = aws_instance.web.id
 }
 ````
+> ```aws ec2 attach-volume   --volume-id vol-0123456789abcdef0   --instance-id i-0123456789abcdef0 --device /dev/xvdf```
 ---
 ### 3. In-Use State
 - Volume is mounted and used by the OS
@@ -84,7 +85,11 @@ resource "aws_volume_attachment" "ebs_attach" {
   - Gracefully (recommended)
   - Force-detached (risk of data corruption)
 - Data persists after detachment
-
+```
+> ```aws ec2 detach-volume  --volume-id vol-0123456789abcdef0```
+> EBS volumes are detached in Terraform by destroying the aws_volume_attachment resource; the volume itself remains intact unless explicitly deleted.
+> Inproduction  Unmount filesystem first from EC2   by login into EC2 and umount
+```
 ### 5. Snapshot
 - Point-in-time backup stored in S3 (managed by AWS)
 - Incremental by nature
@@ -110,13 +115,23 @@ resource "aws_ebs_snapshot" "backup_everyTime" {
 
 ```
 > *backup* : will happen only on first terraform apply , if you want to take new one destroy and apply. \
-> *backup_everyTime* : will happen every time when you run apply sure to timestamp()    or you can use DLM policy
+> *backup_everyTime* : will happen every time when you run apply sure to timestamp()    or you can use DLM policy\
+> ```aws ec2 create-snapshot  --volume-id vol-0123456789abcdef0 --description "Pre-maintenance snapshot" ```
 ---
 ### 6. Deletion
 - Volume deletion is **permanent**
 - Snapshots remain intact after volume deletion
 - Root volumes may be auto-deleted depending on EC2 settings
-
+### 7. Restoring
+#### Restore Snapshot into Another AZ
+```
+resource "aws_ebs_volume" "restored_volume" {
+  availability_zone = "us-east-1b"
+  snapshot_id       = aws_ebs_snapshot.backup.id
+  type              = "gp3"
+}
+```
+> aws ec2 create-volume   --snapshot-id snap-0123456789abcdef0  --availability-zone us-east-1b --volume-type gp3
 ---
 
 
