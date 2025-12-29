@@ -1,8 +1,10 @@
+```
 resource "aws_iam_user" "iamuser_john" {
   name = "iamuser_john"
 }
+```
 
-
+```
 C:\Users\mohakhan\Downloads\terraform_1.11.4_windows_386\iam_user>..\terraform.exe apply -auto-approve
 
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
@@ -26,3 +28,5 @@ aws_iam_user.iamuser_john: Creating...
 aws_iam_user.iamuser_john: Creation complete after 1s [id=iamuser_john]
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+```
