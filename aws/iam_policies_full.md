@@ -319,6 +319,3 @@ resource "aws_iam_policy_attachment" "test-attachment" {
 }
 
 ````
-
-# 📌 Footer
-**© MohammadImran Khan**
