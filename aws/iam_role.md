@@ -1,3 +1,17 @@
+# Architecture of a IAM Role 
+```mermaid
+graph TB
+    Policy1[AmazonS3ReadOnlyAccess Policy]
+    Role1[EC2-S3-Read-Role]
+    EC2[EC2 Instance]
+    STS[AWS STS]
+
+    Policy1 -->|attached to| Role1
+    EC2 -->|assumes| Role1
+    Role1 -->|validated by| STS
+    STS -->|issues temp credentials| EC2
+```
+---
 # AWS IAM Role — What, Why, When, How 
 
 ---
