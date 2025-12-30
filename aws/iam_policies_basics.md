@@ -271,7 +271,29 @@ Use explicit deny:
 ```json
 "Condition": { "Bool": { "aws:MultiFactorAuthPresent": "true" }}
 ```
+## Scenario 4: Create an IAM policy named iampolicy_james in us-east-1 region using Terraform. It must allow read-only access to the EC2 console, i.e., this policy must allow users to view all instances, AMIs, and snapshots in the Amazon EC2 console.
+```
+resource "aws_iam_policy" "iampolicy_james" {
+  name = "iampolicy_james"
 
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "ec2:DescribeInstances",
+          "ec2:DescribeImages",
+          "ec2:DescribeSnapshots"
+        ],
+        "Resource" : "*"
+      },
+
+    ]
+  })
+
+}
+```
 ---
 
 # ⚠️ Best Practices
