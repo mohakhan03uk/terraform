@@ -282,5 +282,43 @@ resource "aws_iam_policy_attachment" "iampolicy_mariyam_to_iamuser_mariyam" {
 }
 ```
 
+> When you are creating the user and policy
+```
+# Create IAM user
+resource "aws_iam_user" "user" {
+  name = "iamuser_kareem"
+
+  tags = {
+    Name = "iamuser_kareem"
+  }
+}
+
+# Create IAM Policy
+resource "aws_iam_policy" "policy" {
+  name        = "iampolicy_kareem"
+  description = "IAM policy allowing EC2 read actions for kareem"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["ec2:Read*"]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+
+
+resource "aws_iam_policy_attachment" "test-attachment" {
+  name       = "test-attachment"
+  users      = [aws_iam_user.user.name]
+  policy_arn = aws_iam_policy.policy.arn
+}
+
+````
+
 # 📌 Footer
 **© MohammadImran Khan**
