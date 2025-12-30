@@ -259,5 +259,28 @@ graph TD
 
 ---
 
+# Problem :
+> you can have existing user and a policy , you need to attach the policy to user
+```
+data "aws_iam_policy" "iampolicy_mariyam" {
+
+  name = "iampolicy_mariyam"
+
+}
+
+data "aws_iam_user" "iamuser_mariyam" {
+
+  user_name = "iamuser_mariyam"
+
+}
+
+
+resource "aws_iam_policy_attachment" "iampolicy_mariyam_to_iamuser_mariyam" {
+  name       = "iampolicy_mariyam_to_iamuser_mariyam"
+  users      = [data.aws_iam_user.iamuser_mariyam.user_name]
+  policy_arn = data.aws_iam_policy.iampolicy_mariyam.arn
+}
+```
+
 # 📌 Footer
 **© MohammadImran Khan**
